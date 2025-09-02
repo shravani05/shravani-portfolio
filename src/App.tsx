@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 
 // Build-safe URL for anything in /public
-const asset = (p: string) => new URL(p, import.meta.env.BASE_URL).toString();
+const asset = (p: string) => import.meta.env.BASE_URL + p;
 
 
 
