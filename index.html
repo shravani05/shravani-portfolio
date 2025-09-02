@@ -2,28 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shravani Chavan · Portfolio</title>
-
-    <!-- 1) Apply saved/system theme *before* paint to avoid flicker -->
+  
+    <!-- 1) Set initial theme BEFORE CSS/JS load -->
     <script>
       (function () {
         try {
-          const pref = localStorage.getItem('theme-pref'); // 'light' | 'dark' | null
-          const systemDark =
-            window.matchMedia &&
+          const pref = localStorage.getItem('theme-pref');
+          const systemDark = window.matchMedia &&
             window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const isDark = pref ? pref === 'dark' : systemDark;
-          document.documentElement.classList.toggle('dark', isDark);
+          const effectiveDark = (pref === 'dark') || (pref === null && systemDark);
+          document.documentElement.classList.toggle('dark', !!effectiveDark);
         } catch {}
       })();
     </script>
-
-    <!-- 2) Tailwind CDN -->
+  
+    <!-- 2) Configure Tailwind CDN to use class strategy -->
+    <script>
+      tailwind = window.tailwind || {};
+      tailwind.config = {
+        darkMode: 'class',
+        theme: { extend: {} }
+      };
+    </script>
+  
+    <!-- 3) Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-  </head>
+  </head>  
 
   <body class="min-h-screen">
     <div id="root"></div>
